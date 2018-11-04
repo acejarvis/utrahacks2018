@@ -9,11 +9,19 @@ from scipy.fftpack import fft
 import sys
 import time
 
+# Arduino Stuff
+import serial
+import time
+PORT = "COM3"
+RATE = 9600
+
 # PLOT AESTHETIC
 
 plt.style.use('dark_background')
 DIVERSITY = 0
 
+
+ser = serial.Serial(PORT, RATE)
 
 # OOP IN PYTHON , LET'S GO!
 
@@ -87,7 +95,8 @@ class AudioStream(object):
 
     def start_plot(self):
 
-        global DIVERSITY
+
+        global DIVERSITY, ser
 
         # Avg.FPS = #Frames/Total-Time
         print('stream started')
@@ -152,7 +161,12 @@ class AudioStream(object):
             print("", stats, "\n")
             print(" RGB:", RGB)
             print(" Intrv Vol.:", intervalVals, "\n\n\n")
-            
+
+
+            #  ....................... ARDUINO OUTPUT .........................
+            outputString = ""
+            outputString += str(RGB[0]) + str(RGB[-1])
+            ser.write(outputString.encode())
 
             #  ....................... PLOT DATA ...............................
 
