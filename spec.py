@@ -110,7 +110,7 @@ class AudioStream(object):
         while not self.pause:
 
             # DIVERSIFY FREQ. 
-            if(frameCount % 50):
+            if(frameCount % 2 == 0):
                 DIVERSITY += 1
             if(DIVERSITY == numIntervals):
                 DIVERSITY = 0
@@ -147,14 +147,34 @@ class AudioStream(object):
                 intervalVals[i] = int(sumVolume)
                 # Update the Most Prominent Interval
                 if(sumVolume > RGB[1] and i != 0):
-                    RGB[1] = sumVolume               # increment every X-Frames
+                    RGB[1] = int(sumVolume)               # increment every X-Frames
                     RGB[0] = i - DIVERSITY
                 i += 1  # index of interval we're processing
+
+                
+
+            # np.delete(colorIntervals, RGB[0])
+            # np.delete(intervalVals, RGB[0])
+            # i=0
+
+            # for colorInterval in colorIntervals:
+            #     # Find Prominence of Interval
+            #     sumVolume = 0
+            #     for frame in colorInterval:
+            #         sumVolume += frame
+            #     intervalVals[i] = int(sumVolume)
+            #     # Update the Most Prominent Interval
+            #     if(sumVolume > RGB[1] and i != 0):
+            #         RGB[1] = int(sumVolume)               # increment every X-Frames
+            #         RGB[0] = i - 0
+            #     i += 1  # index of interval we're processing
 
 
             #  ....................... TERMINAL OUTPUT .........................
 
             # RGB Interval Stats
+
+
             print(" FRAME #", frameCount, " | FPS:", int(frameCount / (time.time() - startTime)), "\n ---------------------\n")
             stats[RGB[0]] += 1
             print(" [R, G, B, V, O, P, Y, M]")

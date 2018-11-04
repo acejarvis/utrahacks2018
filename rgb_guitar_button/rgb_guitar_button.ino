@@ -46,8 +46,10 @@ void loop()
 {
   Serial.println(readString);
     int colour = readString.substring(0, 1).toInt();
-//    int brightness = readString.substring(1).toInt();
+    int brightInt = readString.substring(1).toInt();
     int brightness = 1;
+//    double brightness = brightInt/10;
+//    double brightness = brightInt/10.0;
     switch (colour)
     {
       case 0:
