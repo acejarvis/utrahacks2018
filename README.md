@@ -1,6 +1,6 @@
 # IRIS C14
 
-![Audio Signal -> Fourier Transform -> Spectrum](spec3.png)
+![Audio Signal -> Fourier Transform -> Spectrum](spec.png)
 
 **Top:** RAW Sound Signal from Mic.
 
