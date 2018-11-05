@@ -10,9 +10,29 @@ from json.decoder import JSONDecodeError
 import time
 from osax import *
 import serial
-=======
 
+def init_serial():
+    global ser          #Must be declared in Each Function
+    ser = serial.Serial()
+    ser.baudrate = 9600
+    ser.port = '/dev/cu.usbserial-14530'   #COM Port Name Start from 0
+    #ser.port = '/dev/ttyUSB0' #If Using Linux
+            
+    #Specify the TimeOut in seconds, so that SerialPort
+    #Doesn't hangs
+    ser.timeout = 1
+    ser.open()          
+                    
+    #Opens SerialPort
 
+    # print port open or closed
+
+# Function Ends Here
+
+init_serial()
+
+vol = OSAX()
+# token info
 username = 'zack_manesiotis'
 scope = 'user-read-private user-read-playback-state user-modify-playback-state playlist-modify-private playlist-modify-private'
 client_id = '5a697a22138740e8ab30ce2ef839f3d8'
@@ -130,27 +150,7 @@ while True:
             ser = 0
 
             #Function to Initialize the Serial Port
-        def init_serial():
-            global ser          #Must be declared in Each Function
-            ser = serial.Serial()
-            ser.baudrate = 9600
-            ser.port = '/dev/cu.usbserial-14530'   #COM Port Name Start from 0
-               #ser.port = '/dev/ttyUSB0' #If Using Linux
-            
-                #Specify the TimeOut in seconds, so that SerialPort
-                #Doesn't hangs
-            ser.timeout = 1
-            ser.open()          
-                
-                #Opens SerialPort
-
-                # print port open or closed
-            
-            # #Function Ends Here
-
-            init_serial()
-            
-            vol = OSAX()
+       
             
             while True:
                 incoming = ser.readline()
@@ -167,29 +167,34 @@ while True:
             playStateFlag = True 
 
             while True:
-                data = ser.readline()
+                data = int(incoming.codeser.readline()
                 #Self-locking Push Switch for Play/Pause 
                 counter_left = 0 
                 counter_right = 0 
                 counter_sum = 0 
                 volume = 0 
             #convert to int
-                if data <= 100:
+                if data <= 120:
                     volume = spotifyObject.volume(data)
                     print("Changing the volume")
                     time.sleep(1)
                 elif data == 202:
-                    counter_sum++
+                    counter_sum+=1
                 elif data == 203:
-                    counter_left++
+                    counter_left+=1
                 elif data == 302:
-                    counter_right++
+                    counter_right+=1
+                else:
+                    counter_sum = 0
+                    counter_left = 0
+                    counter_right = 0
 
                 # condition
-                if counter_left >= 10 and counter_left <= 20 or counter_right >= 10 and counter_right <= 20 
+                if counter_left >= 10 and counter_left <= 20 or counter_right >= 10 and counter_right <= 20:
                     if counter_left > counter_right:
                         print("play previous")
-                    else print("play next")
+                    else:
+                         print("play next")
 
                 if counter_sum > 20:
                     buttonStateFlag = True
@@ -201,6 +206,7 @@ while True:
                     else:
                         print("Pause") #need api calling
                     buttonStateFlag = False
+                time.sleep(1)
 
 
 
